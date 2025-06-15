@@ -17,7 +17,7 @@ const columns = [
   { id: 'telefone', label: 'Telefone', minWidth: 50, align: 'center' },
   { id: 'empresa', label: 'Empresa', minWidth: 100, align: 'center' },
   { id: 'cargo', label: 'Cargo', minWidth: 100, align: 'center' },
-  { id: 'acao', label: 'Ação', minWidth: 50, align: 'center' },
+  { id: 'acao', label: 'Ação', minWidth: 100, align: 'center' },
 ];
 
 export default function StickyHeadTable() {
@@ -114,13 +114,13 @@ export default function StickyHeadTable() {
                           <TableCell key="acao" align="center">
                             {editRowId === row.id ? (
                               <>
-                                <IconButton onClick={handleSave}><CheckIcon /></IconButton>
+                                <IconButton onClick={handleSave}color="primary"><CheckIcon /></IconButton>
                                 <IconButton onClick={handleCancel}><CloseIcon /></IconButton>
                               </>
                             ) : (
                               <>
-                                <IconButton onClick={() => handleEdit(row)}><EditIcon /></IconButton>
-                                <IconButton onClick={() => handleDelete(row.id)}><DeleteIcon /></IconButton>
+                                <IconButton onClick={() => handleEdit(row)} color="primary"><EditIcon /></IconButton>
+                                <IconButton onClick={() => handleDelete(row.id)} color="error"><DeleteIcon /></IconButton>
                               </>
                             )}
                           </TableCell>
@@ -158,7 +158,7 @@ export default function StickyHeadTable() {
         />
       </Paper>
 
-      <div style={{ marginTop: 16, textAlign: 'right', display: 'flex', justifyContent: 'flex-end' }}>
+      <div style={{ marginTop: 16, textAlign: 'right', display: 'flex', justifyContent: 'flex-end', paddingRight: '2%' }}>
         <Button variant="contained" color="primary" onClick={() => navigate('/addClient')}>
           Cadastrar Cliente
         </Button>

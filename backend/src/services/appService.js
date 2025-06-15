@@ -33,11 +33,7 @@ class AppService {
         const t = await sequelize.transaction();
 
         const usuarioExistente = await database.Usuario.findOne({
-            where: {
-                [database.Sequelize.Op.or]: [
-                    { email }
-                ]
-            }
+            where: { email }
         });
 
         if (usuarioExistente) {
@@ -149,6 +145,104 @@ class AppService {
             console.error('Erro ao remover cliente:', error);
             throw error;
         }
+    }
+
+    async criarInteracao(dto) {
+        const { cliente_id, tipo, data, observacoes } = dto;
+
+        if (!cliente_id || !tipo || !data) {
+            throw new Error('Campos obrigatórios ausentes: Cliente, Tipo e Data são necessários.');
+        }
+
+        const cliente = await database.Cliente.findByPk(cliente_id);
+        if (!cliente) {
+            throw new Error('Cliente não encontrado.');
+        }
+
+        const novaInteracao = await database.Interacao.create({
+            id: uuidv4(),
+            cliente_id,
+            tipo,
+            data,
+            observacoes,
+        });
+
+        return await database.Interacao.findByPk(novaInteracao.id, {
+            include: [{
+                model: database.Cliente,
+                as: 'cliente',
+                attributes: ['nome'] 
+            }]
+        });
+    }
+
+    async listarTodasInteracoes() {
+        return await database.Interacao.findAll({
+            include: [{
+                model: database.Cliente,
+                as: 'cliente',
+                attributes: ['nome'] 
+            }],
+            order: [['data', 'DESC']],
+        });
+    }
+
+    async listarInteracoesPorCliente(cliente_id) {
+        return await database.Interacao.findAll({
+            where: { cliente_id },
+            include: [{
+                model: database.Cliente,
+                as: 'cliente',
+                attributes: ['nome']
+            }],
+            order: [['data', 'DESC']],
+        });
+    }
+
+    async editarInteracao(dto) {
+        const { id, tipo, data, observacoes } = dto;
+        const tiposPermitidos = ['reunião', 'ligação', 'email', 'outro'];
+
+        if (!id) {
+            throw new Error('ID da interação não foi informado.');
+        }
+
+        const interacao = await database.Interacao.findByPk(id);
+
+        if (!interacao) {
+            throw new Error('Interação não encontrada.');
+        }
+
+        if (tipo && !tiposPermitidos.includes(tipo)) {
+            throw new Error('Tipo de interação inválido.');
+        }
+
+        const t = await sequelize.transaction();
+
+        try {
+            if (tipo) interacao.tipo = tipo;
+            if (data) interacao.data = data;
+            if (observacoes) interacao.observacoes = observacoes;
+
+            await interacao.save({ transaction: t });
+            await t.commit();
+
+            return interacao;
+        } catch (error) {
+            await t.rollback();
+            console.error('Erro ao editar interação:', error.message);
+            throw error;
+        }
+    }
+
+    async removerInteracao(id) {
+        const interacao = await database.Interacao.findByPk(id);
+        if (!interacao) {
+        throw new Error('Interação não encontrada');
+        }
+
+        await interacao.destroy();
+        return { message: 'Interação excluída com sucesso' };
     }
 }
 
