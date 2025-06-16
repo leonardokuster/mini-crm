@@ -139,7 +139,10 @@ class AppService {
         }
 
         try {
+            await database.Interacao.destroy({ where: { cliente_id } });
+
             await cliente.destroy();
+
             return { message: 'Cliente removido com sucesso.' };
         } catch (error) {
             console.error('Erro ao remover cliente:', error);
@@ -201,7 +204,7 @@ class AppService {
 
     async editarInteracao(dto) {
         const { id, tipo, data, observacoes } = dto;
-        const tiposPermitidos = ['reunião', 'ligação', 'email', 'outro'];
+        const tiposPermitidos = ['reunião', 'ligação', 'e-mail', 'outro'];
 
         if (!id) {
             throw new Error('ID da interação não foi informado.');

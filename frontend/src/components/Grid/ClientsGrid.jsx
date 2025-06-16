@@ -11,6 +11,8 @@ import {
   TablePagination, TableRow, Button, TextField, IconButton
 } from '@mui/material';
 
+const API_URL = 'http://localhost:3001/clients';
+
 const columns = [
   { id: 'nome', label: 'Nome', minWidth: 100, align: 'center' },
   { id: 'email', label: 'E-mail', minWidth: 100, align: 'center' },
@@ -29,7 +31,7 @@ export default function StickyHeadTable() {
   const [editData, setEditData] = React.useState({});
 
   const fetchClientes = () => {
-    axios.get('http://localhost:3001/clients')
+    axios.get(API_URL)
       .then((res) => {
         setRows(res.data);
       })
@@ -44,7 +46,7 @@ export default function StickyHeadTable() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/clients/${id}`);
+      await axios.delete(`${API_URL}/${id}`);
       fetchClientes(); 
     } catch (err) {
       console.error('Erro ao deletar cliente:', err);
@@ -67,7 +69,7 @@ export default function StickyHeadTable() {
 
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:3001/clients/${editRowId}`, editData);
+      await axios.put(`${API_URL}/${editRowId}`, editData);
       setEditRowId(null);
       setEditData({});
       fetchClientes();

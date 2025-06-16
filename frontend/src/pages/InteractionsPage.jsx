@@ -192,7 +192,7 @@ export default function InteractionsPage() {
             >
               <MenuItem value="reunião">Reunião</MenuItem>
               <MenuItem value="ligação">Ligação</MenuItem>
-              <MenuItem value="email">E-mail</MenuItem>
+              <MenuItem value="e-mail">E-mail</MenuItem>
               <MenuItem value="outro">Outro</MenuItem>
             </Select>
           </FormControl>
