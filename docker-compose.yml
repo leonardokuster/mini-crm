@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: crm
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: crm
+      DB_DIALECT: mysql
+      USER_TOKEN: h2uhUH@UQHU@Huaheuahhueahishuikau2HIQUHEndasuibdui2biutbfiasbuiabiueo
+    ports:
+      - "3001:3001"
+    depends_on:
+      mysql:
+        condition: service_healthy 
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"  
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
