@@ -2,15 +2,13 @@ import React, { createContext, useContext, useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-// 1. Cria o Contexto
 const NotificationContext = createContext();
 
-// 2. Cria o Provedor (Provider)
 export const NotificationProvider = ({ children }) => {
   const [notification, setNotification] = useState({
     open: false,
     message: '',
-    severity: 'success', // 'error', 'warning', 'info', 'success'
+    severity: 'success', 
   });
 
   const showNotification = (message, severity = 'success') => {
@@ -33,11 +31,10 @@ export const NotificationProvider = ({ children }) => {
       {children}
       <Snackbar
         open={notification.open}
-        autoHideDuration={6000} // Fecha após 6 segundos
+        autoHideDuration={6000} 
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} // Posição
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} 
       >
-        {/* Usamos o Alert para dar cores e ícones à notificação */}
         <Alert onClose={handleClose} severity={notification.severity} sx={{ width: '100%' }}>
           {notification.message}
         </Alert>
@@ -46,7 +43,7 @@ export const NotificationProvider = ({ children }) => {
   );
 };
 
-// 3. Cria um hook customizado para facilitar o uso
+
 export const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context) {

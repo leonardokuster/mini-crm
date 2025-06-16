@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath, pathToFileURL } from 'url'; // 1. Importar pathToFileURL
+import { fileURLToPath, pathToFileURL } from 'url'; 
 import Sequelize from 'sequelize';
 import process from 'process';
 import configFile from '../config/database.js';

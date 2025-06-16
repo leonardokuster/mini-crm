@@ -10,7 +10,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const API_URL = 'http://localhost:3001';
 
-// Estado inicial para o formulário
 const initialState = {
   id: null,
   cliente_id: '',
@@ -25,11 +24,8 @@ export default function InteractionsPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
-  // Estado para controlar a interação sendo criada ou editada
   const [formData, setFormData] = useState(initialState);
   
-  // Determina se o modal está em modo de edição
   const isEditing = formData.id !== null;
 
   const clientesMap = useMemo(() => {
@@ -68,7 +64,6 @@ export default function InteractionsPage() {
 
   const handleOpenDialog = (interaction = null) => {
     if (interaction) {
-      // Modo de edição: preenche o formulário com os dados da interação
       setFormData({
         id: interaction.id,
         cliente_id: interaction.cliente_id,
@@ -77,7 +72,6 @@ export default function InteractionsPage() {
         observacoes: interaction.observacoes
       });
     } else {
-      // Modo de criação: reseta para o estado inicial
       setFormData(initialState);
     }
     setOpenDialog(true);
@@ -106,12 +100,10 @@ export default function InteractionsPage() {
     request
       .then((res) => {
         if (isEditing) {
-          // Atualiza a interação na lista
           setInteracoes(interacoes.map(item => 
             item.id === formData.id ? { ...item, ...res.data.interacao } : item
           ));
         } else {
-          // Adiciona a nova interação à lista
           setInteracoes([res.data, ...interacoes]);
         }
         handleCloseDialog();
@@ -127,7 +119,6 @@ export default function InteractionsPage() {
     if (window.confirm('Tem certeza que deseja excluir esta interação?')) {
       axios.delete(`${API_URL}/interactions/${interactionId}`)
         .then(() => {
-          // Remove a interação da lista localmente
           setInteracoes(interacoes.filter(item => item.id !== interactionId));
         })
         .catch((err) => {
@@ -154,7 +145,6 @@ export default function InteractionsPage() {
           interacoes.map((item) => (
             <Box key={item.id} sx={{ mt: 2, p: 2, border: '1px solid #ccc', borderRadius: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Box>
-                {/* 3. CORREÇÃO: Usa o mapa para encontrar o nome do cliente */}
                 <Typography>
                   <strong>Cliente:</strong> {clientesMap[item.cliente_id] || item.cliente?.nome || 'Não identificado'}
                 </Typography>

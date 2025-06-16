@@ -2,7 +2,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import CustomGlobalStyles from './styles/global.jsx';
-import { NotificationProvider } from './components/Notifications.jsx';
+import { NotificationProvider } from './components/NotificationsAlert/index.jsx';
 
 import HomePage from './pages/HomePage.jsx';
 import SigninPage from './pages/SigninPage.jsx';

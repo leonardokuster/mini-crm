@@ -19,29 +19,26 @@ const CustomGlobalStyles = () => {
             boxShadow: theme.shadows[3],
         },
         
-        // Exemplo: Estilizando a barra de rolagem usando cores do tema
         '::-webkit-scrollbar': {
           width: '10px',
           height: '10px',
         },
         '::-webkit-scrollbar-track': {
-          background: theme.palette.background.default, // Cor de fundo do tema
+          background: theme.palette.background.default, 
         },
         '::-webkit-scrollbar-thumb': {
-          background: theme.palette.primary.main, // Cor primária do tema
+          background: theme.palette.primary.main, 
           borderRadius: '8px',
         },
         '::-webkit-scrollbar-thumb:hover': {
-          background: theme.palette.primary.dark, // Cor primária mais escura no hover
+          background: theme.palette.primary.dark, 
         },
 
-        // Exemplo: Reset básico para links
         a: {
           textDecoration: 'none',
           color: 'inherit',
         },
         
-        // Exemplo: Removendo setas de inputs do tipo 'number'
         'input[type=number]::-webkit-inner-spin-button': {
           '-webkit-appearance': 'none',
           margin: 0,

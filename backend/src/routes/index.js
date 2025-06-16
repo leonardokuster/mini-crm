@@ -9,5 +9,4 @@ export default (app) => {
   app.use(cors());
 
   app.use(routes);
-
 };
